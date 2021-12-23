@@ -10,6 +10,7 @@ const url = process.env.DB_URL || 'mongodb://localhost/issuetracker';
 
 let db;
 
+
 let aboutMessage = "Issue Tracker API v1.0";
 
 const GraphQLDate = new GraphQLScalarType({
