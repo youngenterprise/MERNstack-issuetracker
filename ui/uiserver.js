@@ -1,6 +1,6 @@
 const express=require('express');
 require('dotenv').config();
-
+const proxy=require('http-proxy-middleware');
 
 const app=express();
 
