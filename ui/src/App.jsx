@@ -3,6 +3,9 @@
 /* eslint "react/jsx-no-undef": "off" */
 /* eslint "react/no-multi-comp": "off" */
 /* eslint "no-alert": "off" */
+
+/* globals React ReactDOM PropTypes */
+
 const dateRegex = new RegExp('^\\d\\d\\d\\d-\\d\\d-\\d\\d');
 
 function jsonDateReviver(key, value) {
@@ -19,8 +22,7 @@ class IssueFilter extends React.Component {
   }
 }
 
-function IssueRow({issue}) {
-  const issue = props.issue;
+function IssueRow({ issue }) {
   return (
     <tr>
       <td>{issue.id}</td>
@@ -34,10 +36,8 @@ function IssueRow({issue}) {
   );
 }
 
-function IssueTable({issues}) {
-  const issueRows = props.issues.map(issue =>
-    <IssueRow key={issue.id} issue={issue} />
-  );
+function IssueTable({ issues }) {
+  const issueRows = issues.map(issue => <IssueRow key={issue.id} issue={issue} />);
 
   return (
     <table className="bordered-table">
@@ -69,13 +69,13 @@ class IssueAdd extends React.Component {
     e.preventDefault();
     const form = document.forms.issueAdd;
     const issue = {
-      owner: form.owner.value, 
+      owner: form.owner.value,
       title: form.title.value,
       due: new Date(new Date().getTime() + 1000 * 60 * 60 * 24 * 10),
-    }
-    const {createIssue}=this.props;
+    };
+    const { createIssue } = this.props;
     createIssue(issue);
-    form.owner.value = ''; 
+    form.owner.value = '';
     form.title.value = '';
   }
 
@@ -90,12 +90,16 @@ class IssueAdd extends React.Component {
   }
 }
 
+IssueAdd.propTypes = {
+  createIssue: PropTypes.func.isRequired,
+};
+
 async function graphQLFetch(query, variables = {}) {
   try {
     const response = await fetch(window.ENV.UI_API_ENDPOINT, {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({ query, variables })
+      body: JSON.stringify({ query, variables }),
     });
     const body = await response.text();
     const result = JSON.parse(body, jsonDateReviver);
