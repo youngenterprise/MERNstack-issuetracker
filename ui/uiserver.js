@@ -1,3 +1,4 @@
+
 const express=require('express');
 require('dotenv').config();
 const proxy=require('http-proxy-middleware');
@@ -21,6 +22,6 @@ app.get('/env.js', function(req,res){
 
 const port=process.env.UI_SERVER_PORT ||8000;
 
-app.listen(port,function(){
+app.listen(port,() => {
     console.log(`UI started on port ${port}`);
 });
