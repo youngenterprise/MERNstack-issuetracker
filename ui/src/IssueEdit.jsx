@@ -112,12 +112,7 @@ export default class IssueEdit extends React.Component {
             <tr>
               <td>Title:</td>
               <td>
-                <input
-                  size={50}
-                  name="title"
-                  value={title}
-                  onChange={this.onChange}
-                />
+                <input size={50} name="title" value={title} onChange={this.onChange} />
               </td>
             </tr>
             <tr>
