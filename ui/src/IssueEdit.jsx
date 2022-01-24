@@ -78,7 +78,7 @@ export default class IssueEdit extends React.Component {
           <tbody>
             <tr>
               <td>Created:</td>
-              <td>{created.toDateString}</td>
+              <td>{created.toDateString()}</td>
             </tr>
             <tr>
               <td>Status:</td>
@@ -104,6 +104,7 @@ export default class IssueEdit extends React.Component {
               </td>
             </tr>
             <tr>
+              <td>Due:</td>
               <td>
                 <input name="due" value={due} onChange={this.onChange} />
               </td>
@@ -111,11 +112,16 @@ export default class IssueEdit extends React.Component {
             <tr>
               <td>Title:</td>
               <td>
-                <input size={50} name="title" value={title} onChange={this.onChange} />
+                <input
+                  size={50}
+                  name="title"
+                  value={title}
+                  onChange={this.onChange}
+                />
               </td>
             </tr>
             <tr>
-              <td>Description</td>
+              <td>Description:</td>
               <td>
                 <textarea rows={8} cols={50} name="description" value={description} onChange={this.onChange} />
               </td>
