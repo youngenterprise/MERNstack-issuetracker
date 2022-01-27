@@ -1,7 +1,6 @@
 import React from 'react';
 import URLSearchParams from 'url-search-params';
 import { Route } from 'react-router-dom';
-
 import IssueFilter from './IssueFilter.jsx';
 import IssueTable from './IssueTable.jsx';
 import IssueAdd from './IssueAdd.jsx';
@@ -121,7 +120,6 @@ export default class IssueList extends React.Component {
     const { match } = this.props;
     return (
       <React.Fragment>
-        <h1>Issue Tracker</h1>
         <IssueFilter />
         <hr />
         <IssueTable issues={issues} closeIssue={this.closeIssue} deleteIssue={this.deleteIssue} />
