@@ -1,11 +1,11 @@
 import React from 'react';
 import {
-  Navbar, Nav, NavItem, NavDropdown, Grid,
-  MenuItem, Glyphicon, Tooltip, OverlayTrigger,
+  Navbar, Nav, NavItem, NavDropdown,
+  MenuItem, Glyphicon, Grid,
 } from 'react-bootstrap';
 import { LinkContainer } from 'react-router-bootstrap';
-
 import Contents from './Contents.jsx';
+import IssueAddNavItem from './IssueAddNavItem.jsx';
 
 function NavBar() {
   return (
@@ -25,15 +25,7 @@ function NavBar() {
         </LinkContainer>
       </Nav>
       <Nav pullRight>
-        <NavItem>
-          <OverlayTrigger
-            placement="left"
-            delayShow={1000}
-            overlay={<Tooltip id="create-issue">Create Issue</Tooltip>}
-          >
-            <Glyphicon glyph="plus" />
-          </OverlayTrigger>
-        </NavItem>
+        <IssueAddNavItem />
         <NavDropdown
           id="user-dropdown"
           title={<Glyphicon glyph="option-vertical" />}
@@ -53,9 +45,7 @@ function Footer() {
       <p className="text-center">
         Full source code available at this
         {' '}
-        <a href="https://github.com/youngenterprise">
-          GitHub repository
-        </a>
+        <a href="https://github.com/vasansr/pro-mern-stack-2">GitHub repository</a>
       </p>
     </small>
   );

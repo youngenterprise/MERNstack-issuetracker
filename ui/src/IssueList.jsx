@@ -2,10 +2,8 @@ import React from 'react';
 import URLSearchParams from 'url-search-params';
 import { Route } from 'react-router-dom';
 import { Panel } from 'react-bootstrap';
-
 import IssueFilter from './IssueFilter.jsx';
 import IssueTable from './IssueTable.jsx';
-import IssueAdd from './IssueAdd.jsx';
 import IssueDetail from './IssueDetail.jsx';
 import graphQLFetch from './graphQLFetch.js';
 import Toast from './Toast.jsx';
@@ -19,7 +17,6 @@ export default class IssueList extends React.Component {
       toastMessage: '',
       toastType: 'info',
     };
-    this.createIssue = this.createIssue.bind(this);
     this.closeIssue = this.closeIssue.bind(this);
     this.deleteIssue = this.deleteIssue.bind(this);
     this.showSuccess = this.showSuccess.bind(this);
@@ -43,8 +40,8 @@ export default class IssueList extends React.Component {
     const { location: { search } } = this.props;
     const params = new URLSearchParams(search);
     const vars = {};
-    if (params.get('status')) vars.status = params.get('status');
 
+    if (params.get('status')) vars.status = params.get('status');
     const effortMin = parseInt(params.get('effortMin'), 10);
     if (!Number.isNaN(effortMin)) vars.effortMin = effortMin;
     const effortMax = parseInt(params.get('effortMax'), 10);
@@ -54,12 +51,12 @@ export default class IssueList extends React.Component {
       $status: StatusType
       $effortMin: Int
       $effortMax: Int
-      ) {
-      issueList (
+    ) {
+      issueList(
         status: $status
         effortMin: $effortMin
         effortMax: $effortMax
-        ) {
+      ) {
         id title status owner
         created effort due
       }
@@ -71,28 +68,16 @@ export default class IssueList extends React.Component {
     }
   }
 
-  async createIssue(issue) {
-    const query = `mutation issueAdd($issue: IssueInputs!) {
-      issueAdd(issue: $issue) {
-        id
-      }
-    }`;
-
-    const data = await graphQLFetch(query, { issue }, this.showError);
-    if (data) {
-      this.loadData();
-    }
-  }
-
   async closeIssue(index) {
     const query = `mutation issueClose($id: Int!) {
-      issueUpdate(id: $id, changes: {status: Closed}) {
+      issueUpdate(id: $id, changes: { status: Closed }) {
         id title status owner
         effort created due description
       }
     }`;
     const { issues } = this.state;
-    const data = await graphQLFetch(query, { id: issues[index].id }, this.showError);
+    const data = await graphQLFetch(query, { id: issues[index].id },
+      this.showError);
     if (data) {
       this.setState((prevState) => {
         const newList = [...prevState.issues];
@@ -105,7 +90,7 @@ export default class IssueList extends React.Component {
   }
 
   async deleteIssue(index) {
-    const query = `mutation issueDelete($id: Int!){
+    const query = `mutation issueDelete($id: Int!) {
       issueDelete(id: $id)
     }`;
     const { issues } = this.state;
@@ -157,8 +142,11 @@ export default class IssueList extends React.Component {
             <IssueFilter />
           </Panel.Body>
         </Panel>
-        <IssueTable issues={issues} closeIssue={this.closeIssue} deleteIssue={this.deleteIssue} />
-        <IssueAdd createIssue={this.createIssue} />
+        <IssueTable
+          issues={issues}
+          closeIssue={this.closeIssue}
+          deleteIssue={this.deleteIssue}
+        />
         <Route path={`${match.path}/:id`} component={IssueDetail} />
         <Toast
           showing={toastVisible}
