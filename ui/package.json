@@ -6,13 +6,15 @@
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
     "#start": "UI server. HMR is enabled in dev mode.",
-    "start": "nodemon -w uiserver.js -w .env uiserver.js",
+    "start": "node dist/server.js",
     "#lint": "Runs ESLint on all relevant files",
-    "lint": "eslint . --ext js,jsx --ignore-pattern public",
+    "lint": "eslint server src browser --ext js,jsx ",
     "#compile": "Generates JS bundles for production. Use with start.",
     "compile": "webpack --mode production",
-    "#watch": "Compile, and recompile any changes",
-    "watch": "webpack --watch"
+    "#watch-server-hmr": "Recompile server HMR bundle on changes.",
+    "watch-server-hmr": "webpack -w --config webpack.serverHMR.js",
+    "#dev-all": "Dev modeL watch for server changes and start UI server",
+    "dev-all": "del dist/* && npm run watch-server-hmr & timeout /t 5 && npm start"
   },
   "author": "",
   "license": "ISC",
@@ -29,6 +31,7 @@
     "react-dom": "^16.14.0",
     "react-router-bootstrap": "^0.24.4",
     "react-router-dom": "^4.3.1",
+    "source-map-support": "^0.5.21",
     "url-search-params": "^1.1.0",
     "whatwg-fetch": "^3.6.2"
   },
@@ -37,6 +40,7 @@
     "@babel/core": "^7.15.8",
     "@babel/preset-env": "^7.15.8",
     "@babel/preset-react": "^7.14.5",
+    "@types/dotenv": "^8.2.0",
     "babel-loader": "^8.2.3",
     "eslint": "^5.16.0",
     "eslint-config-airbnb": "^17.1.1",
@@ -46,6 +50,8 @@
     "webpack": "^4.46.0",
     "webpack-cli": "^3.3.12",
     "webpack-dev-middleware": "^3.7.3",
-    "webpack-hot-middleware": "^2.25.1"
+    "webpack-hot-middleware": "^2.25.1",
+    "webpack-merge": "^4.2.2",
+    "webpack-node-externals": "^1.7.2"
   }
 }
