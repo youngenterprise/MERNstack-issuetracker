@@ -22,8 +22,9 @@ async function render(req, res) {
   }
     //426
   store.initialData = initialData;
+  const context={};
   const element = (
-    <StaticRouter location={req.url} context={{}}>
+    <StaticRouter location={req.url} context={context}>
       <Page />
     </StaticRouter>
   );
