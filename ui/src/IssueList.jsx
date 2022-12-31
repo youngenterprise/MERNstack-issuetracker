@@ -6,10 +6,10 @@ import IssueFilter from './IssueFilter.jsx';
 import IssueTable from './IssueTable.jsx';
 import IssueDetail from './IssueDetail.jsx';
 import graphQLFetch from './graphQLFetch.js';
-import Toast from './Toast.jsx';
+import withToast from './withToast.jsx';
 import store from './store.js';
 
-export default class IssueList extends React.Component {
+class IssueList extends React.Component {
   static async fetchData(match, search, showError){
     const params = new URLSearchParams(search);
     const vars={ hasSelection: false, selectedId:0 };
@@ -58,15 +58,10 @@ export default class IssueList extends React.Component {
     this.state = {
       issues,
       selectedIssue,
-      toastVisible: false,
-      toastMessage: '',
-      toastType: 'info',
     };
     this.closeIssue = this.closeIssue.bind(this);
     this.deleteIssue = this.deleteIssue.bind(this);
-    this.showSuccess = this.showSuccess.bind(this);
-    this.showError = this.showError.bind(this);
-    this.dismissToast = this.dismissToast.bind(this);
+    
   }
 
   componentDidMount() {

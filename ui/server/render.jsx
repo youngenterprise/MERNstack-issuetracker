@@ -29,7 +29,11 @@ async function render(req, res) {
     </StaticRouter>
   );
   const body = ReactDOMServer.renderToString(element);
-  res.send(template(body, initialData));
+  if(context.url){
+    res.redirect(301, context.url);
+  } else{
+    res.send(template(body, initialData));
+  }
 }
 
 export default render;
