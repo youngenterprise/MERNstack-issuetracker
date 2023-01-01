@@ -81,7 +81,7 @@ class IssueList extends React.Component {
   }
 
   async loadData() {
-    const { location: { search }, match } = this.props;
+    const { location: { search }, match, showError } = this.props;
 
     const data = await IssueList.fetchData(match, search, this.showError);
     if (data) {
@@ -97,8 +97,8 @@ class IssueList extends React.Component {
       }
     }`;
     const { issues } = this.state;
-    const data = await graphQLFetch(query, { id: issues[index].id },
-      this.showError);
+    const {showError}=this.props;
+    const data = await graphQLFetch(query, { id: issues[index].id }, showError);
     if (data) {
       this.setState((prevState) => {
         const newList = [...prevState.issues];
@@ -115,9 +115,10 @@ class IssueList extends React.Component {
       issueDelete(id: $id)
     }`;
     const { issues } = this.state;
+    const {showSuccess, showError} = this.props;
     const { location: { pathname, search }, history } = this.props;
     const { id } = issues[index];
-    const data = await graphQLFetch(query, { id }, this.showError);
+    const data = await graphQLFetch(query, { id }, showError);
     if (data && data.issueDelete) {
       this.setState((prevState) => {
         const newList = [...prevState.issues];
@@ -127,32 +128,15 @@ class IssueList extends React.Component {
         newList.splice(index, 1);
         return { issues: newList };
       });
-      this.showSuccess(`Deleted issue ${id} successfully.`);
+      showSuccess(`Deleted issue ${id} successfully.`);
     } else {
       this.loadData();
     }
   }
 
-  showSuccess(message) {
-    this.setState({
-      toastVisible: true, toastMessage: message, toastType: 'success',
-    });
-  }
-
-  showError(message) {
-    this.setState({
-      toastVisible: true, toastMessage: message, toastType: 'danger',
-    });
-  }
-
-  dismissToast() {
-    this.setState({ toastVisible: false });
-  }
-
   render() {
     const { issues } = this.state;
     if(issues==null) return null;
-    const { toastVisible, toastType, toastMessage } = this.state;
     const {selectedIssue} = this.state;
     return (
       <React.Fragment>
@@ -170,14 +154,11 @@ class IssueList extends React.Component {
           deleteIssue={this.deleteIssue}
         />
         <IssueDetail issue={selectedIssue} />
-        <Toast
-          showing={toastVisible}
-          onDismiss={this.dismissToast}
-          bsStyle={toastType}
-        >
-          {toastMessage}
-        </Toast>
       </React.Fragment>
     );
   }
 }
+
+const IssueListWithToast = withToast(IssueList);
+IssueListWithToast.fetchData = IssueList.fetchData;
+export default IssueListWithToast;
