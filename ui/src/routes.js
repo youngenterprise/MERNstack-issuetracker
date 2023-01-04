@@ -1,8 +1,8 @@
-import About from "./About";
 import IssueReport from './IssueReport.jsx';
 import IssueEdit from './IssueEdit.jsx';
 import About from './About.jsx';
 import NotFound from './NotFound.jsx';
+import IssueList from './IssueList.jsx';
 
 
 const routes = [

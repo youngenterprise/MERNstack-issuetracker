@@ -2,8 +2,7 @@ import React from 'react';
 import URLSearchParams from 'url-search-params';
 import { withRouter } from 'react-router-dom';
 import {
-  ButtonToolbar, Button, FormGroup,
-  FormControl, ControlLabel, InputGroup,
+  ButtonToolbar, Button, FormGroup, FormControl, ControlLabel, InputGroup,
   Row, Col,
 } from 'react-bootstrap';
 
@@ -17,6 +16,7 @@ class IssueFilter extends React.Component {
       effortMax: params.get('effortMax') || '',
       changed: false,
     };
+
     this.onChangeStatus = this.onChangeStatus.bind(this);
     this.onChangeEffortMin = this.onChangeEffortMin.bind(this);
     this.onChangeEffortMax = this.onChangeEffortMax.bind(this);
@@ -55,6 +55,8 @@ class IssueFilter extends React.Component {
     const params = new URLSearchParams(search);
     this.setState({
       status: params.get('status') || '',
+      effortMin: params.get('effortMin') || '',
+      effortMax: params.get('effortMax') || '',
       changed: false,
     });
   }
@@ -86,6 +88,7 @@ class IssueFilter extends React.Component {
             >
               <option value="">(All)</option>
               <option value="New">New</option>
+              <option value="Assigned">Assigned</option>
               <option value="Fixed">Fixed</option>
               <option value="Closed">Closed</option>
             </FormControl>
